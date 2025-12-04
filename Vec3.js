@@ -1,5 +1,5 @@
 class Vec3 { // home spun Vector3
-    x = 1; y = 0; z = 0;
+    x; y; z;
     static cross(a, b, res = V3()) { res.x = a.y * b.z - a.z * b.y; res.y = a.z * b.x - a.x * b.z; res.z = a.x * b.y - a.y * b.x; return res }
     static dot(a, b) { return a.x * b.x + a.y * b.y + a.z * b.z }
     static setMat(mat, aX, aY, aZ, p) {  // mat is type THREE.Matrix4
@@ -70,7 +70,7 @@ class Vec3 { // home spun Vector3
     distSqr(v) { return (this.x - v.x) ** 2 + (this.y - v.y) ** 2 + (this.z - v.z) ** 2 }
     round() { this.x = Math.round(this.x); this.y = Math.round(this.y); this.z = Math.round(this.z); return this; }
     normalize() { const l = 1 / ((this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5); this.x *= l; this.y *= l; this.z *= l; return this }
-    cross(a, b) { const x = a.y * b.z - a.z * b.y; const y = a.z * b.x - a.x * b.z; const z = a.x * b.y - a.y * b.x; this.x = x; this.y = y; this.z = z; return this }  // NOTE a or b could be this so ensure we do not overwrite self
+    cross(a, b) { const x = a.y * b.z - a.z * b.y; const y = a.z * b.x - a.x * b.z; const z = a.x * b.y - a.y * b.x; this.x = x; this.y = y; this.z = z; return this } 
     dot(b) { return this.x * b.x + this.y * b.y + this.z * b.z; }
     lerp(a, b, t) { this.x = (b.x - a.x) * t + a.x; this.y = (b.y - a.y) * t + a.y; this.z = (b.z - a.z) * t + a.z; return this }
     rndXYZ(x, X, y, Y, z, Z) { this.x = (X - x) * Math.random() + x; this.y = (Y - y) * Math.random() + y; this.z = (Z - z) * Math.random() + z; return this }
