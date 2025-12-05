@@ -39,8 +39,8 @@ class Vec3 { // home spun Vector3
     setXZ(x, z) { this.x = x; this.z = z; return this }
     setYZ(y, z) { this.y = y; this.z = z; return this }
     setXYZ(x, y, z) { this.x = x; this.y = y; this.z = z; return this }
-    setAE(a, e) { const ce = Math.cos(e); this.x = Math.sin(a) * ce; this.y = -Math.sin(e); this.z = Math.cos(a) * ce; return this } // (a)zimuth, (e)levation. North along z on the x,z plane. y axis is Up
-    setAED(a, e, d) { const ce = Math.cos(e) * d; this.x = Math.sin(a) * ce; this.y = -Math.sin(e) * d; this.z = Math.cos(a) * ce; return this } // (a)zimuth, (e)levation, (d)istance. North along z on the x,z plane. y axis is Up
+    setAE(a, e) { const ce = Math.cos(e); this.x = Math.sin(a) * ce; this.y = -Math.sin(e); this.z = Math.cos(a) * ce; return this } 
+    setAED(a, e, d) { const ce = Math.cos(e) * d; this.x = Math.sin(a) * ce; this.y = -Math.sin(e) * d; this.z = Math.cos(a) * ce; return this } // (A)zimuth, (E)levation, (D)istance. A = 0deg along +Z on the X,Z plane. +Y axis is Up
     setAE_V(v) { const ce = Math.cos(v.y); this.x = Math.sin(v.x) * ce; this.y = -Math.sin(v.y); this.z = Math.cos(v.x) * ce; return this } // V as vector holding x: azimuth, y: elevation.
     setAED_V(v) { const ce = Math.cos(v.y) * v.z; this.x = Math.sin(v.x) * ce; this.y = -Math.sin(v.y) * v.z; this.z = Math.cos(v.x) * ce; return this } // V as vector holding x: azimuth, y: elevation, z: distance.
     zero() { this.x = this.y = this.z = 0; return this }
@@ -93,7 +93,7 @@ class Vec3 { // home spun Vector3
     fromCol(col)      { this.x = (col >> 16) & 0xFF; this.y = (col >> 8) & 0xFF; this.z = col & 0xFF; return this }
     fromColNorm(col)  { this.x = ((col >> 16) & 0xFF) * Maths.INV_BYTE; this.y = ((col >> 8) & 0xFF) * Maths.INV_BYTE; this.z = (col & 0xFF) * Maths.INV_BYTE; return this }
     toAED() { const d = (this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5; this.x = Math.atan2(this.x, this.z); this.y = (Math.PI * -0.5) + Math.acos(Math.max(-1, Math.min(1, this.y / d))); this.z = d; return this }
-    toString() { return "V3: {x: " + this.x.toFixed(3) + ", y: " + this.y.toFixed(3) + ", z: " + this.z.toFixed(3) + "}" }
+    toString() { return "Vec3: {x: " + this.x.toFixed(3) + ", y: " + this.y.toFixed(3) + ", z: " + this.z.toFixed(3) + "}" }
     toArray() { return [this.x, this.y, this.z] }
 };
 const V3 = (x, y, z) => (x !== undefined && y === undefined && z === undefined) ? new Vec3(x.x, x.y, x.z) : ((x === undefined && y === undefined && z === undefined) ? new Vec3(0, 0, 0) : new Vec3(x, y, z));
