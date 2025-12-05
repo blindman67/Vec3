@@ -68,12 +68,19 @@ class Vec3 { // home spun Vector3
     len() { return (this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5 }
     dist(v) { return ((this.x - v.x) ** 2 + (this.y - v.y) ** 2 + (this.z - v.z) ** 2) ** 0.5 }
     distSqr(v) { return (this.x - v.x) ** 2 + (this.y - v.y) ** 2 + (this.z - v.z) ** 2 }
+    sqr() { this.x **= 2; this.y **= 2; this.z **= 2; return this }
+    sqrt() { this.x **= 0.5; this.y **= 0.5; this.z **= 0.5; return this }
     round() { this.x = Math.round(this.x); this.y = Math.round(this.y); this.z = Math.round(this.z); return this; }
+    grow(g) { const l = (this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5, s = (l + g) / l; this.x *= s; this.y *= s;this.z *= s; return this }
+    resize(size) { const s = size / ((this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5); this.x *= s; this.y *= s; this.z *= s; return this }
     normalize() { const l = 1 / ((this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5); this.x *= l; this.y *= l; this.z *= l; return this }
     cross(a, b) { const x = a.y * b.z - a.z * b.y; const y = a.z * b.x - a.x * b.z; const z = a.x * b.y - a.y * b.x; this.x = x; this.y = y; this.z = z; return this } 
     dot(b) { return this.x * b.x + this.y * b.y + this.z * b.z; }
+    unitDot(b) { return (this.x * b.x + this.y * b.y + this.z * b.z) / (((this.x **2 + this.y **2 + this.z **2) **0.5) * ((b.x **2 + b.y **2 + b.z **2) **0.5)) }
+    uClampDot(b) { return Math.max(-1, Math.min(1, (this.x * b.x + this.y * b.y + this.z * b.z) / (((this.x **2 + this.y **2 + this.z **2) **0.5) * ((b.x **2 + b.y **2 + b.z **2) **0.5)))) }
     lerp(a, b, t) { this.x = (b.x - a.x) * t + a.x; this.y = (b.y - a.y) * t + a.y; this.z = (b.z - a.z) * t + a.z; return this }
     rndXYZ(x, X, y, Y, z, Z) { this.x = (X - x) * Math.random() + x; this.y = (Y - y) * Math.random() + y; this.z = (Z - z) * Math.random() + z; return this }
+    rnd(m, M) { const r = M - m; this.x = r * Math.random() + m; this.y = r * Math.random() + m; this.z = r * Math.random() + m; return this }    
     axisXFromMat(mat) { const e = mat.elements; this.x = e[0];  this.y = e[1];  this.z = e[2];  return this }
     axisYFromMat(mat) { const e = mat.elements; this.x = e[4];  this.y = e[5];  this.z = e[6];  return this }
     axisZFromMat(mat) { const e = mat.elements; this.x = e[8];  this.y = e[9];  this.z = e[10]; return this }
