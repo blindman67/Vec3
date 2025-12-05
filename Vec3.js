@@ -74,6 +74,7 @@ class Vec3 { // home spun Vector3
     grow(g) { const l = (this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5, s = (l + g) / l; this.x *= s; this.y *= s;this.z *= s; return this }
     resize(size) { const s = size / ((this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5); this.x *= s; this.y *= s; this.z *= s; return this }
     normalize() { const l = 1 / ((this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5); this.x *= l; this.y *= l; this.z *= l; return this }
+    toAED() { const d = (this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5; this.x = Math.atan2(this.x, this.z); this.y = (Math.PI * -0.5) + Math.acos(Math.max(-1, Math.min(1, this.y / d))); this.z = d; return this }
     cross(a, b) { const x = a.y * b.z - a.z * b.y; const y = a.z * b.x - a.x * b.z; const z = a.x * b.y - a.y * b.x; this.x = x; this.y = y; this.z = z; return this } 
     dot(b) { return this.x * b.x + this.y * b.y + this.z * b.z; }
     unitDot(b) { return (this.x * b.x + this.y * b.y + this.z * b.z) / (((this.x **2 + this.y **2 + this.z **2) **0.5) * ((b.x **2 + b.y **2 + b.z **2) **0.5)) }
@@ -91,8 +92,10 @@ class Vec3 { // home spun Vector3
     setMatPos(mat)    { const e = mat.elements; e[12] = this.x; e[13] = this.y; e[14] = this.z; return this }
     fromCol(col)      { this.x = (col >> 16) & 0xFF; this.y = (col >> 8) & 0xFF; this.z = col & 0xFF; return this }
     fromColNorm(col)  { this.x = ((col >> 16) & 0xFF) * Maths.INV_BYTE; this.y = ((col >> 8) & 0xFF) * Maths.INV_BYTE; this.z = (col & 0xFF) * Maths.INV_BYTE; return this }
+    toAED() { const d = (this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5; this.x = Math.atan2(this.x, this.z); this.y = (Math.PI * -0.5) + Math.acos(Math.max(-1, Math.min(1, this.y / d))); this.z = d; return this }
     toString() { return "V3: {x: " + this.x.toFixed(3) + ", y: " + this.y.toFixed(3) + ", z: " + this.z.toFixed(3) + "}" }
+    toArray() { return [this.x, this.y, this.z] }
 };
 const V3 = (x, y, z) => (x !== undefined && y === undefined && z === undefined) ? new Vec3(x.x, x.y, x.z) : ((x === undefined && y === undefined && z === undefined) ? new Vec3(0, 0, 0) : new Vec3(x, y, z));
-const TV3 = THREE ? (x, y, z) => new THREE.Vector3(x, y, z) : V3;
+const TV3 = window.THREE ? (x, y, z) => new THREE.Vector3(x, y, z) : V3;
 export {Vec3, V3, TV3}
