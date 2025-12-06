@@ -103,7 +103,6 @@ class Vec3 { // home spun Vector3
     grow(g) { const l = (this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5, s = (l + g) / l; this.x *= s; this.y *= s;this.z *= s; return this }
     resize(size) { const s = size / ((this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5); this.x *= s; this.y *= s; this.z *= s; return this }
     normalize() { const l = 1 / ((this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5); this.x *= l; this.y *= l; this.z *= l; return this }
-    toAED() { const d = (this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5; this.x = Math.atan2(this.x, this.z); this.y = (Math.PI * -0.5) + Math.acos(Math.max(-1, Math.min(1, this.y / d))); this.z = d; return this }
     cross(a, b) { const x = a.y * b.z - a.z * b.y; const y = a.z * b.x - a.x * b.z; const z = a.x * b.y - a.y * b.x; this.x = x; this.y = y; this.z = z; return this } 
     dot(b) { return this.x * b.x + this.y * b.y + this.z * b.z; }
     unitDot(b) { return (this.x * b.x + this.y * b.y + this.z * b.z) / (((this.x **2 + this.y **2 + this.z **2) **0.5) * ((b.x **2 + b.y **2 + b.z **2) **0.5)) }
