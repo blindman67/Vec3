@@ -34,6 +34,7 @@
 const INV_BYTE = 1 / 255;
 class Vec3 { // home spun Vector3
     //x; y; z;
+    static DIGITS = 3;  // Default Number of digits for toString function
     static cross(a, b, res = V3()) { res.x = a.y * b.z - a.z * b.y; res.y = a.z * b.x - a.x * b.z; res.z = a.x * b.y - a.y * b.x; return res }
     static dot(a, b) { return a.x * b.x + a.y * b.y + a.z * b.z }
     static setMat(mat, aX, aY, aZ, p) { const e = mat.elements; e[0] = aX.x; e[1] = aX.y; e[2] = aX.z; e[4] = aY.x; e[5] = aY.y; e[6] = aY.z; e[8] = aZ.x; e[9] = aZ.y; e[10] = aZ.z; e[12] = p.x; e[13] = p.y; e[14] = p.z; return mat } // mat is type THREE.Matrix4
@@ -139,7 +140,8 @@ class Vec3 { // home spun Vector3
     fromCol(col)      { this.z = (col >> 16) & 0xFF; this.y = (col >> 8) & 0xFF; this.x = col & 0xFF; return this }
     fromColNorm(col)  { this.z = ((col >> 16) & 0xFF) * INV_BYTE; this.y = ((col >> 8) & 0xFF) * INV_BYTE; this.x = (col & 0xFF) * INV_BYTE; return this }
     toAED() { const d = (this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5; this.x = Math.atan2(this.x, this.z); this.y = (Math.PI * -0.5) + Math.acos(Math.max(-1, Math.min(1, -this.y / d))); this.z = d; return this }
-    toString() { return "Vec3: {x: " + this.x.toFixed(3) + ", y: " + this.y.toFixed(3) + ", z: " + this.z.toFixed(3) + "}" }
+    toString(digits = Vec3.DIGITS) { return "Vec3: {x: " + this.x.toFixed(digits) + ", y: " + this.y.toFixed(digits) + ", z: " + this.z.toFixed(digits) + "}" }
+    fromArray(a) { this.x = a[0]; this.y = a[1]; this.z = a[2]; return this }
     toArray() { return [this.x, this.y, this.z] }
 };
 const V3 = (x, y, z) => (x !== undefined && y === undefined && z === undefined) ? new Vec3(x.x, x.y, x.z) : ((x === undefined && y === undefined && z === undefined) ? new Vec3(0, 0, 0) : new Vec3(x, y, z));
