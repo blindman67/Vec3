@@ -68,10 +68,10 @@ class Vec3 { // home spun Vector3
     setXZ(x, z) { this.x = x; this.z = z; return this }
     setYZ(y, z) { this.y = y; this.z = z; return this }
     setXYZ(x, y, z) { this.x = x; this.y = y; this.z = z; return this }
-    setAE(a, e) { const ce = Math.cos(e); this.x = Math.sin(a) * ce; this.y = -Math.sin(e); this.z = Math.cos(a) * ce; return this } 
-    setAED(a, e, d) { const ce = Math.cos(e) * d; this.x = Math.sin(a) * ce; this.y = -Math.sin(e) * d; this.z = Math.cos(a) * ce; return this } // (A)zimuth, (E)levation, (D)istance. A = 0deg along +Z on the X,Z plane. +Y axis is Up
-    setAE_V(v) { const ce = Math.cos(v.y); this.x = Math.sin(v.x) * ce; this.y = -Math.sin(v.y); this.z = Math.cos(v.x) * ce; return this } // V as vector holding x: azimuth, y: elevation.
-    setAED_V(v) { const ce = Math.cos(v.y) * v.z; this.x = Math.sin(v.x) * ce; this.y = -Math.sin(v.y) * v.z; this.z = Math.cos(v.x) * ce; return this } // V as vector holding x: azimuth, y: elevation, z: distance.
+    setAE(a, e) {       const ce = Math.cos(e);         this.x = Math.sin(a) * ce;   this.y = Math.sin(e);         this.z = Math.cos(a) * ce;   return this } 
+    setAED(a, e, d) {   const ce = Math.cos(e) * d;     this.x = Math.sin(a) * ce;   this.y = Math.sin(e) * d;     this.z = Math.cos(a) * ce;   return this } // (A)zimuth, (E)levation, (D)istance. A = 0deg along +Z on the X,Z plane. +Y axis is Up
+    setAE_V(v) {        const ce = Math.cos(v.y);       this.x = Math.sin(v.x) * ce; this.y = Math.sin(v.y);       this.z = Math.cos(v.x) * ce; return this } // V as vector holding x: azimuth, y: elevation.
+    setAED_V(v) {       const ce = Math.cos(v.y) * v.z; this.x = Math.sin(v.x) * ce; this.y = Math.sin(v.y) * v.z; this.z = Math.cos(v.x) * ce; return this } // V as vector holding x: azimuth, y: elevation, z: distance.
     zero() { this.x = this.y = this.z = 0; return this }
     equals(v, epsolon = 0.0001) { return (this.x - v.x) ** 2 + (this.y - v.y) ** 2 + (this.z - v.z) ** 2 < epsolon }
     add(v) { this.x += v.x; this.y += v.y; this.z += v.z; return this }
@@ -139,7 +139,7 @@ class Vec3 { // home spun Vector3
     normToRGBa(a = 1) { return ((this.x * 255) & 0xFF) | (((this.y * 255) & 0xFF) << 8) | (((this.z * 255) & 0xFF) << 16) | (((a * 255) & 0xFF) << 24)  }
     fromCol(col)      { this.z = (col >> 16) & 0xFF; this.y = (col >> 8) & 0xFF; this.x = col & 0xFF; return this }
     fromColNorm(col)  { this.z = ((col >> 16) & 0xFF) * INV_BYTE; this.y = ((col >> 8) & 0xFF) * INV_BYTE; this.x = (col & 0xFF) * INV_BYTE; return this }
-    toAED() { const d = (this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5; this.x = Math.atan2(this.x, this.z); this.y = (Math.PI * -0.5) + Math.acos(Math.max(-1, Math.min(1, this.y / d))); this.z = d; return this }
+    toAED() { const d = (this.x * this.x + this.y * this.y + this.z * this.z) ** 0.5; this.x = Math.atan2(this.x, this.z); this.y = (Math.PI * -0.5) + Math.acos(Math.max(-1, Math.min(1, -this.y / d))); this.z = d; return this }
     toString() { return "Vec3: {x: " + this.x.toFixed(3) + ", y: " + this.y.toFixed(3) + ", z: " + this.z.toFixed(3) + "}" }
     toArray() { return [this.x, this.y, this.z] }
 };
